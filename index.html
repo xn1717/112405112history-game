@@ -1,0 +1,2202 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>汪汪隊立大功</title>
+<style>
+  /* ===== 字型 ===== */
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;700;900&family=Noto+Sans+TC:wght@400;500;700&display=swap');
+
+  /* ===== 主題變數：溫暖懷舊復古 ===== */
+  :root {
+    --paper:        #f4ead5;
+    --paper-2:      #ede0c4;
+    --paper-3:      #e3d3b1;
+    --ink:          #3a2817;
+    --ink-soft:     #5a4530;
+    --accent:       #a4651a;
+    --accent-deep:  #7a4715;
+    --accent-glow:  #c8893f;
+    --crimson:      #9b3a2f;
+    --moss:         #6b7a3f;
+    --bamboo:       #4a5d3a;
+    --shadow-sm:    0 2px 6px rgba(58, 40, 23, .15);
+    --shadow-md:    0 6px 20px rgba(58, 40, 23, .25);
+    --shadow-lg:    0 14px 40px rgba(58, 40, 23, .35);
+    --serif:        'Noto Serif TC', 'cwTeXKai', serif;
+    --sans:         'Noto Sans TC', sans-serif;
+    --brush:        'Noto Serif TC', serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; }
+
+  body {
+    font-family: var(--serif);
+    color: var(--ink);
+    background: var(--paper);
+    background-image:
+      radial-gradient(ellipse at top, rgba(200,137,63,.08), transparent 60%),
+      radial-gradient(ellipse at bottom, rgba(122,71,21,.10), transparent 60%),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .23 0 0 0 0 .16 0 0 0 0 .09 0 0 0 .08 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    line-height: 1.85;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* ===== 頂部導覽列 ===== */
+  #topbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: linear-gradient(to bottom, rgba(244,234,213,.97), rgba(244,234,213,.92));
+    border-bottom: 1px solid var(--paper-3);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    padding: 14px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 12px rgba(58,40,23,.06);
+  }
+  #title-block {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+  }
+  #title-block .logo {
+    font-family: var(--brush);
+    font-size: 28px;
+    color: var(--accent-deep);
+    letter-spacing: 4px;
+    text-shadow: 1px 1px 0 rgba(255,255,255,.5);
+  }
+  #title-block .subtitle {
+    font-size: 13px;
+    color: var(--ink-soft);
+    letter-spacing: 3px;
+  }
+  #topbar .nav-tools {
+    display: flex;
+    gap: 10px;
+  }
+  .icon-btn {
+    background: var(--paper-2);
+    border: 1px solid var(--paper-3);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all .2s ease;
+    box-shadow: var(--shadow-sm);
+  }
+  .icon-btn:hover {
+    background: var(--accent);
+    color: var(--paper);
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+  .icon-btn:active { transform: translateY(0); }
+
+  /* ===== 主舞台 ===== */
+  #stage {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 36px 28px 80px;
+    position: relative;
+  }
+
+  #scene-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 1s ease;
+    filter: saturate(.85) brightness(.85);
+  }
+  #scene-bg.show { opacity: .35; }
+  #scene-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(244,234,213,.55), rgba(244,234,213,.85));
+  }
+
+  /* ===== 段落卡 ===== */
+  #passage {
+    background: var(--paper);
+    border: 1px solid var(--paper-3);
+    border-radius: 4px;
+    padding: 50px 56px;
+    position: relative;
+    box-shadow:
+      var(--shadow-md),
+      inset 0 0 80px rgba(122,71,21,.04);
+    min-height: 320px;
+    background-image:
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .35 0 0 0 0 .25 0 0 0 0 .14 0 0 0 .04 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+  #passage::before, #passage::after {
+    content: '';
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    border: 2px solid var(--accent-deep);
+    pointer-events: none;
+  }
+  #passage::before {
+    top: 12px; left: 12px;
+    border-right: none; border-bottom: none;
+  }
+  #passage::after {
+    bottom: 12px; right: 12px;
+    border-left: none; border-top: none;
+  }
+
+  .passage-content {
+    font-size: 17px;
+    color: var(--ink);
+  }
+  .passage-content.fade-in {
+    animation: fadeUp .7s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .passage-content p { margin: 0 0 1.2em; }
+  .passage-content h1, .passage-content h2, .passage-content h3 {
+    font-family: var(--brush);
+    color: var(--accent-deep);
+    letter-spacing: 4px;
+    margin: 0 0 0.8em;
+    font-weight: 400;
+  }
+  .passage-content h1 { font-size: 36px; }
+  .passage-content h2 { font-size: 28px; }
+  .passage-content h3 { font-size: 22px; }
+  .passage-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 18px auto;
+    border-radius: 3px;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--paper-3);
+  }
+  .passage-content .center { text-align: center; display: block; }
+  .passage-content .rumble {
+    display: inline-block;
+    animation: rumble .25s linear infinite;
+    color: var(--crimson);
+    font-weight: 700;
+    font-size: 1.15em;
+  }
+  @keyframes rumble {
+    0%, 100% { transform: translate(0,0) rotate(0); }
+    25% { transform: translate(-1px, 1px) rotate(-.5deg); }
+    50% { transform: translate(1px, -1px) rotate(.5deg); }
+    75% { transform: translate(-1px, -1px) rotate(.3deg); }
+  }
+  .passage-content .smear {
+    color: var(--crimson);
+    font-weight: 700;
+    text-shadow:
+      0 0 12px rgba(155,58,47,.5),
+      0 0 24px rgba(155,58,47,.3);
+    letter-spacing: 2px;
+  }
+  .passage-content table {
+    margin: 16px auto;
+    border-collapse: collapse;
+  }
+  .passage-content table td {
+    padding: 6px;
+    text-align: center;
+  }
+  .passage-content table[border] td {
+    border: 1.5px solid var(--ink-soft);
+    background: var(--paper-2);
+    min-width: 44px;
+    padding: 10px;
+    font-weight: 700;
+    font-size: 18px;
+  }
+  /* 處理原始 <tr><td>...</td></tr> 直接寫在文字裡的情況 */
+  .img-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  .img-row img { margin: 0; max-width: 100%; }
+
+  /* 對白色彩（保留原有@@color指定） */
+  .speak-aliceblue { color: #4a6b8a; font-weight: 500; }
+  .speak-cornsilk  { color: #8a6d3b; font-weight: 500; }
+  .speak-darkseagreen { color: var(--bamboo); font-weight: 700; letter-spacing: 1px; }
+  .speak-chocolate { color: var(--accent-deep); font-weight: 700; letter-spacing: 2px; }
+
+  /* ===== 連結（劇情選項） ===== */
+  .choices {
+    margin-top: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .choice-link {
+    display: inline-block;
+    background: linear-gradient(to bottom, var(--paper-2), var(--paper-3));
+    border: 1px solid var(--accent);
+    color: var(--accent-deep);
+    padding: 14px 22px;
+    border-radius: 6px;
+    font-family: var(--serif);
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    text-align: center;
+    transition: all .25s ease;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 1px;
+  }
+  .choice-link:hover {
+    background: linear-gradient(to bottom, var(--accent), var(--accent-deep));
+    color: var(--paper);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+  .choice-link::before {
+    content: '❯';
+    margin-right: 10px;
+    color: var(--accent);
+    transition: color .25s;
+  }
+  .choice-link:hover::before { color: var(--paper); }
+
+  /* 行內連結（如「回[[主地圖]]」） */
+  a.inline-link {
+    color: var(--accent-deep);
+    text-decoration: none;
+    border-bottom: 1.5px dashed var(--accent);
+    padding: 0 2px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all .2s;
+  }
+  a.inline-link:hover {
+    background: var(--accent);
+    color: var(--paper);
+    border-bottom-color: var(--accent);
+  }
+
+  /* ===== 互動地圖 ===== */
+  .map-wrapper {
+    position: relative;
+    display: inline-block;
+    max-width: 100%;
+    margin: 16px auto;
+  }
+  .map-wrapper img { display: block; max-width: 100%; height: auto; margin: 0; }
+  .hot-area {
+    position: absolute;
+    cursor: pointer;
+    background: rgba(164,101,26,.0);
+    border: 2px dashed transparent;
+    border-radius: 6px;
+    transition: all .25s ease;
+  }
+  .hot-area:hover {
+    background: rgba(164,101,26,.25);
+    border-color: var(--accent);
+    box-shadow: 0 0 18px rgba(200,137,63,.6);
+  }
+  .hot-area.circle { border-radius: 50%; }
+  .hot-area .label {
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--ink);
+    color: var(--paper);
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 13px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s;
+  }
+  .hot-area:hover .label { opacity: 1; }
+
+  .pulse-dot {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--accent);
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 0 0 rgba(164,101,26,.7);
+    animation: pulse 2s infinite;
+    pointer-events: none;
+  }
+  @keyframes pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(164,101,26,.7); }
+    70%  { box-shadow: 0 0 0 16px rgba(164,101,26,0); }
+    100% { box-shadow: 0 0 0 0 rgba(164,101,26,0); }
+  }
+
+  /* ===== 視覺小說對話 ===== */
+  .vn-scene {
+    position: relative;
+    margin: 12px 0;
+  }
+  .vn-character {
+    text-align: center;
+    margin-bottom: 18px;
+  }
+  .vn-character img {
+    max-height: 360px;
+    width: auto;
+    margin: 0 auto;
+    box-shadow: none;
+    border: none;
+    background: transparent;
+    filter: drop-shadow(0 8px 24px rgba(58,40,23,.3));
+  }
+  .vn-box {
+    background: linear-gradient(to bottom, rgba(244,234,213,.98), rgba(237,224,196,.98));
+    border: 2px solid var(--accent-deep);
+    border-radius: 8px;
+    padding: 22px 28px 26px;
+    margin: 18px auto 0;
+    max-width: 720px;
+    position: relative;
+    box-shadow: var(--shadow-md);
+  }
+  .vn-name {
+    display: inline-block;
+    background: var(--accent-deep);
+    color: var(--paper);
+    padding: 4px 18px;
+    border-radius: 4px;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    position: absolute;
+    top: -18px;
+    left: 24px;
+  }
+  .vn-text {
+    font-size: 16px;
+    line-height: 1.9;
+    min-height: 60px;
+    margin-top: 8px;
+  }
+  .vn-next {
+    text-align: right;
+    margin-top: 12px;
+    color: var(--accent);
+    font-size: 14px;
+    animation: blink 1.4s infinite;
+    cursor: pointer;
+    user-select: none;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: .4; }
+    50% { opacity: 1; }
+  }
+
+  /* ===== 密碼輸入 ===== */
+  .code-form {
+    background: var(--paper-2);
+    border: 1.5px solid var(--paper-3);
+    border-radius: 8px;
+    padding: 22px 24px;
+    margin: 20px auto;
+    max-width: 480px;
+    box-shadow: var(--shadow-sm);
+  }
+  .code-form input {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 17px;
+    font-family: var(--serif);
+    border: 1.5px solid var(--accent);
+    border-radius: 4px;
+    background: var(--paper);
+    color: var(--ink);
+    margin-bottom: 12px;
+    letter-spacing: 4px;
+    text-align: center;
+  }
+  .code-form input:focus {
+    outline: none;
+    border-color: var(--accent-deep);
+    box-shadow: 0 0 0 3px rgba(164,101,26,.18);
+  }
+  .code-form button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-family: var(--serif);
+    background: linear-gradient(to bottom, var(--accent), var(--accent-deep));
+    color: var(--paper);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    letter-spacing: 4px;
+    transition: all .2s;
+  }
+  .code-form button:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+  }
+  .code-error {
+    color: var(--crimson);
+    text-align: center;
+    margin-top: 10px;
+    font-size: 14px;
+    min-height: 20px;
+  }
+  .shake-x { animation: shakeX .4s; }
+  @keyframes shakeX {
+    0%,100% { transform: translateX(0); }
+    20% { transform: translateX(-8px); }
+    40% { transform: translateX(8px); }
+    60% { transform: translateX(-5px); }
+    80% { transform: translateX(5px); }
+  }
+
+  /* ===== 線索背包抽屜 ===== */
+  #inv-toggle {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 60;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(to bottom, var(--accent), var(--accent-deep));
+    color: var(--paper);
+    border: 2px solid var(--paper);
+    cursor: pointer;
+    box-shadow: var(--shadow-lg);
+    font-size: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform .25s;
+  }
+  #inv-toggle:hover { transform: scale(1.08) rotate(-6deg); }
+  #inv-toggle .badge {
+    position: absolute;
+    top: -4px; right: -4px;
+    background: var(--crimson);
+    color: var(--paper);
+    border: 2px solid var(--paper);
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 999px;
+    min-width: 22px;
+    font-family: var(--sans);
+    font-weight: 700;
+  }
+
+  #inv-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 420px;
+    max-width: 92vw;
+    height: 100%;
+    background: var(--paper);
+    z-index: 70;
+    transform: translateX(105%);
+    transition: transform .35s cubic-bezier(.4,.0,.2,1);
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: column;
+    border-left: 3px double var(--accent-deep);
+  }
+  #inv-drawer.open { transform: translateX(0); }
+  #inv-header {
+    padding: 22px 26px 16px;
+    border-bottom: 1px solid var(--paper-3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--paper-2);
+  }
+  #inv-header h2 {
+    font-family: var(--brush);
+    color: var(--accent-deep);
+    margin: 0;
+    font-size: 26px;
+    letter-spacing: 4px;
+    font-weight: 400;
+  }
+  #inv-close {
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--ink-soft);
+    line-height: 1;
+    padding: 4px 8px;
+  }
+  #inv-close:hover { color: var(--crimson); }
+  #inv-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 24px 40px;
+  }
+  .clue-group {
+    margin-bottom: 22px;
+  }
+  .clue-group-title {
+    font-family: var(--serif);
+    font-weight: 700;
+    color: var(--accent-deep);
+    font-size: 16px;
+    padding: 8px 0;
+    border-bottom: 1.5px solid var(--paper-3);
+    margin-bottom: 12px;
+    letter-spacing: 2px;
+  }
+  .clue-item {
+    background: var(--paper-2);
+    border: 1px solid var(--paper-3);
+    border-left: 3px solid var(--accent);
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 1.7;
+    border-radius: 3px;
+    animation: slideIn .4s ease both;
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  .clue-empty {
+    color: var(--ink-soft);
+    font-style: italic;
+    font-size: 13px;
+    padding: 8px 0;
+    text-align: center;
+    opacity: .7;
+  }
+  .clue-name {
+    color: var(--crimson);
+    font-weight: 700;
+    margin-bottom: 4px;
+    display: block;
+  }
+  .clue-item table {
+    margin: 6px auto;
+    border-collapse: collapse;
+  }
+  .clue-item table td {
+    border: 1px solid var(--ink-soft);
+    padding: 4px 10px;
+    background: var(--paper);
+  }
+
+  /* ===== 對話框（dialog） ===== */
+  .modal-mask {
+    position: fixed;
+    inset: 0;
+    background: rgba(58,40,23,.55);
+    z-index: 80;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    animation: fadeIn .25s;
+  }
+  .modal-mask.show { display: flex; }
+  @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
+  .modal-box {
+    background: var(--paper);
+    padding: 32px 36px;
+    border-radius: 6px;
+    border: 2px solid var(--accent-deep);
+    max-width: 520px;
+    width: 90%;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    animation: popIn .3s cubic-bezier(.34,1.56,.64,1);
+  }
+  @keyframes popIn { from { transform: scale(.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .modal-box h3 {
+    font-family: var(--brush);
+    color: var(--accent-deep);
+    margin: 0 0 14px;
+    font-size: 24px;
+    letter-spacing: 3px;
+    font-weight: 400;
+    border-bottom: 1px dashed var(--paper-3);
+    padding-bottom: 10px;
+  }
+  .modal-close {
+    position: absolute;
+    top: 12px; right: 14px;
+    background: transparent;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: var(--ink-soft);
+  }
+  .modal-close:hover { color: var(--crimson); }
+
+  /* ===== 答題環節 ===== */
+  .qa-block {
+    background: var(--paper-2);
+    border: 1px solid var(--paper-3);
+    padding: 18px 22px;
+    border-radius: 6px;
+    margin: 16px 0;
+  }
+  .qa-block label {
+    display: block;
+    font-weight: 700;
+    color: var(--accent-deep);
+    margin-bottom: 8px;
+    font-size: 15px;
+  }
+  .qa-block select {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 16px;
+    font-family: var(--serif);
+    border: 1.5px solid var(--accent);
+    border-radius: 4px;
+    background: var(--paper);
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .qa-block select:focus {
+    outline: none;
+    border-color: var(--accent-deep);
+    box-shadow: 0 0 0 3px rgba(164,101,26,.18);
+  }
+
+  /* ===== 線索組合表 ===== */
+  .combine-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    margin: 16px 0;
+  }
+  .combine-table td {
+    padding: 8px 12px;
+    background: var(--paper-2);
+    border: 1px solid var(--paper-3);
+  }
+  .combine-table td:first-child {
+    border-radius: 4px 0 0 4px;
+    width: 240px;
+  }
+  .combine-table td:last-child {
+    border-radius: 0 4px 4px 0;
+  }
+  .combine-table select {
+    padding: 8px 10px;
+    font-size: 15px;
+    font-family: var(--serif);
+    border: 1.5px solid var(--accent);
+    border-radius: 4px;
+    background: var(--paper);
+    color: var(--ink);
+    cursor: pointer;
+    min-width: 180px;
+  }
+  .combine-preview table {
+    margin: 0;
+    border-collapse: collapse;
+  }
+  .combine-preview table td {
+    border: 1.5px solid var(--ink-soft);
+    background: var(--paper);
+    padding: 8px 14px;
+    font-weight: 700;
+  }
+  .combine-empty {
+    color: var(--ink-soft);
+    font-style: italic;
+    font-size: 14px;
+  }
+
+  /* ===== 視覺特效 ===== */
+  .delayed { opacity: 0; animation: appear .6s forwards; display: block; }
+  .delayed-1 { animation-delay: .3s; }
+  .delayed-2 { animation-delay: .9s; }
+  .delayed-3 { animation-delay: 1.5s; }
+  @keyframes appear { to { opacity: 1; } }
+
+  /* 標題章節分隔 */
+  .chapter-mark {
+    text-align: center;
+    margin: 0 0 28px;
+    color: var(--accent-deep);
+    font-family: var(--brush);
+    letter-spacing: 6px;
+    font-size: 14px;
+  }
+  .chapter-mark::before, .chapter-mark::after {
+    content: '——';
+    margin: 0 12px;
+    opacity: .6;
+  }
+
+  /* 結束待續頁 */
+  .ending-card {
+    text-align: center;
+    padding: 40px 20px;
+  }
+  .ending-card h1 {
+    font-family: var(--brush);
+    font-size: 56px;
+    color: var(--accent-deep);
+    letter-spacing: 10px;
+    margin: 16px 0 8px;
+  }
+  .ending-card .small-tag {
+    color: var(--ink-soft);
+    letter-spacing: 4px;
+    font-size: 14px;
+    margin-bottom: 28px;
+  }
+  .ending-card img {
+    max-width: 480px;
+    margin: 24px auto;
+  }
+  .ending-card .quote {
+    font-size: 18px;
+    color: var(--accent-deep);
+    font-style: italic;
+    margin: 30px 0;
+    padding: 0 30px;
+    line-height: 2;
+  }
+
+  /* ===== 開場頁特殊樣式 ===== */
+  .start-screen {
+    text-align: center;
+    padding: 40px 0 20px;
+  }
+  .start-screen .game-title {
+    font-family: var(--brush);
+    font-size: 72px;
+    color: var(--accent-deep);
+    letter-spacing: 12px;
+    margin: 12px 0;
+    text-shadow: 2px 2px 0 var(--paper-3);
+    line-height: 1.1;
+  }
+  .start-screen .game-sub {
+    font-size: 16px;
+    color: var(--ink-soft);
+    letter-spacing: 8px;
+    margin-bottom: 32px;
+  }
+  .start-screen img {
+    max-width: 720px;
+    margin: 16px auto;
+  }
+  .start-button {
+    display: inline-block;
+    padding: 16px 48px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent-deep));
+    color: var(--paper);
+    font-family: var(--brush);
+    font-size: 22px;
+    letter-spacing: 8px;
+    border: 2px solid var(--accent-deep);
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: all .25s;
+    text-decoration: none;
+    box-shadow: var(--shadow-md);
+  }
+  .start-button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    color: var(--paper);
+  }
+
+  /* ===== 提示氣泡 ===== */
+  .toast {
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-30px);
+    background: var(--ink);
+    color: var(--paper);
+    padding: 12px 28px;
+    border-radius: 999px;
+    font-size: 14px;
+    z-index: 90;
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    transition: all .35s cubic-bezier(.4,.0,.2,1);
+    pointer-events: none;
+    letter-spacing: 2px;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  .toast::before {
+    content: '✦ ';
+    color: var(--accent-glow);
+  }
+
+  /* RWD */
+  @media (max-width: 720px) {
+    #passage { padding: 32px 22px; }
+    #topbar { padding: 12px 16px; }
+    #title-block .logo { font-size: 22px; }
+    #title-block .subtitle { display: none; }
+    .start-screen .game-title { font-size: 48px; letter-spacing: 8px; }
+    #inv-drawer { width: 100%; }
+    #stage { padding: 24px 14px 90px; }
+    .vn-character img { max-height: 240px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="scene-bg"></div>
+
+<header id="topbar">
+  <div id="title-block">
+    <span class="logo">汪汪隊立大功</span>
+    <span class="subtitle">劇本殺遊戲</span>
+  </div>
+  <nav class="nav-tools">
+    <button class="icon-btn" id="btn-restart" title="重新開始">↺ 重新開始</button>
+    <button class="icon-btn" id="btn-credits" title="製作人員">✎ 製作人員</button>
+  </nav>
+</header>
+
+<main id="stage">
+  <div id="passage"></div>
+</main>
+
+<!-- 線索背包按鈕 -->
+<button id="inv-toggle" title="線索背包">
+  🎒
+  <span class="badge" id="inv-badge" style="display:none">0</span>
+</button>
+
+<!-- 線索背包抽屜 -->
+<aside id="inv-drawer" aria-hidden="true">
+  <div id="inv-header">
+    <h2>線索背包</h2>
+    <button id="inv-close" aria-label="關閉">✕</button>
+  </div>
+  <div id="inv-body"></div>
+</aside>
+
+<!-- 通用對話框 -->
+<div class="modal-mask" id="modal">
+  <div class="modal-box">
+    <button class="modal-close" id="modal-close">✕</button>
+    <h3 id="modal-title"></h3>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<!-- 提示 toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   汪汪隊立大功 — 重製版
+   保留原劇情、文字、解謎、流程；UI 全新撰寫
+   ========================================================= */
+
+/* ---------- 遊戲狀態 ---------- */
+const state = {
+  // 故事旗標
+  plane:false, mission:false, police:false, diaryone:false,
+  rice:false, ricesugar:false, dad:false, tatami:false,
+  light:false, diarytwo:false, diarythree:false,
+  rbuilding:false, mbuilding:false, fbuilding:false, cbuilding:false,
+  paper:false, uniform:false, chocolate:false,
+  // 線索組合選單（古蹟密碼解謎用）
+  cluecombine1:'無', cluecombine2:'無', cluecombine3:'無', cluecombine4:'無',
+  // 答題用
+  clue1:'無', clue2:'無',
+  // 歷史記錄（用於 previous()）
+  history: [],
+};
+
+/* ---------- 段落定義 ----------
+   每個段落是純物件 / 函式回傳 HTML。
+   保留原文一字不改。
+-------------------------------- */
+const passages = {};
+
+passages['start'] = {
+  bg: 'bg21',
+  render: () => `
+    <div class="start-screen">
+      <div class="game-title">汪汪隊立大功</div>
+      <div class="game-sub">劇本殺・歷史穿越遊戲</div>
+      <img src="media/遊玩指南.PNG" alt="遊玩指南">
+      <div style="margin-top:30px;">
+        <a class="start-button" data-goto="遊戲開始">遊戲開始</a>
+      </div>
+    </div>
+  `
+};
+
+passages['遊戲開始'] = {
+  bg: 'bg1',
+  render: () => `
+    <div class="chapter-mark">序 章</div>
+    <h1 style="text-align:center;">故事背景</h1>
+    <p>你是張怡君，現年18歲，是政大歷史系的大一生，你的奶奶名叫張藍，你從小在她家長大，與她有著深厚的感情，時常聽她講起高中時期與朋友山田晴子的故事，和他們最後失聯的遺憾，即使那時年紀尚小，你還是能感受到奶奶對那段時光的難忘。</p>
+    <p>今年暑假，你決定陪阿罵前往日本尋友，順便放鬆身心，你們來到張藍與晴子的共同朋友——秀珍奶奶的家裡，那是一個座落在郊區的復古日式建築，你一邊讚嘆、一邊在房子內閒逛穿梭，路過秀珍奶奶的房間時，意外聽到張藍的啜泣聲，這是你第一次聽到你的富婆奶奶落淚！！正想要把耳朵貼到門上偷聽，秀珍奶奶就一邊嘆氣，一邊打開房門走了出來，你嚇了一大跳，但還是趕緊詢問奶奶到底發生什麼事，秀珍奶奶搖了搖頭說：「你奶奶不知道山田同學早已在日本過世了…她想必很難過吧…你回去多安慰安慰他」你點頭表示同意，傍晚便扶著張藍離開了大宅。</p>
+    <p>回到台灣，你阿罵一直鬱鬱寡歡，身體也越來越差，於是你決定與阿罵一起彌補青春的遺憾。</p>
+    <div class="choices">
+      <a class="choice-link" data-goto="進入第一幕">進入第一幕</a>
+    </div>
+  `
+};
+
+passages['進入第一幕'] = {
+  bg: 'bg3',
+  render: () => `
+    <div class="chapter-mark">第 一 幕・回憶箱</div>
+    <p>這天，你一如往常的在家睡覺，突然聽到敲門聲，<br>迷迷糊糊地張開眼，發現奶奶神秘兮兮的拿了一個箱子進來。</p>
+    <p>「孫女吶，你是不是答應要幫助奶奶啦～真是對不起你......<br>還要這麼麻煩我的寶貝...」</p>
+    <p>眼看奶奶要繼續碎念下去，你趕緊轉移話題，指著奶奶手裡的箱子，<br>假裝驚訝道：「這是什麼呀，好漂亮喔，還有一種復古的樟腦丸味ㄟ」</p>
+    <p>奶奶這才想起自己來找孫女的目的<br>「這是我的回憶箱阿，裡頭放了我好多的回憶啊...情書、相片、紙條...唉..我之前也是個很多人追的美麗姑娘呢...阿對了，你們歷史系的學生不是最會用這些古董來做研究了嗎？這個箱子給你，應該能幫到你喔！加油~」</p>
+    <p>語畢，奶奶用最快的速度撤出房間，獨留你一人在風中凌亂</p>
+    <div class="choices">
+      <a class="choice-link" data-goto="嘆了一口氣還是選擇打開了箱子">嘆了一口氣還是選擇打開了箱子</a>
+    </div>
+  `
+};
+
+passages['嘆了一口氣還是選擇打開了箱子'] = {
+  bg: 'bg2',
+  render: () => `
+    <p>「什麼嘛...這上面的字根本看不清楚了呀...」</p>
+    <p>看到裡頭頗具年代感的紙片，和泛黃的白色制服，你忍不住抱怨了一通</p>
+    <p>「這能對我有什麼幫助？奶奶也真是的，都這麼晚了......」</p>
+    <p>還是先睡覺好了!<br>你關起箱子正準備爬回床上，<br>沒想到睡意竟然來的如此精準快速，<br>只記得眼皮突然好重好重，腳下一軟，你昏睡了過去。</p>
+    <div class="choices">
+      <a class="choice-link" data-goto="進入第二幕">進入第二幕</a>
+    </div>
+  `
+};
+
+passages['進入第二幕'] = {
+  bg: 'bg4',
+  render: () => `
+    <div class="chapter-mark">第 二 幕・穿越</div>
+    <p>當意識逐漸清晰，你發覺四周暖洋洋的，像是浸在陽光裡，<br>慢慢睜開眼睛，磚紅色的宅第閃現在樹木的縫隙之間，<br>身旁...是一位身著制服面目清秀的女孩！</p>
+    <p>你心想:「乾！睡個午覺怎麼會跑到這種地方！阿旁邊這個漂亮姐姐又是誰？」<br>正想開口詢問，卻發現自己口乾舌燥，四肢發麻，忍不住下意識張嘴喘氣</p>
+    <p>這是我的舌頭嗎？？怎麼這麼長！！</p>
+    <p><span class="speak-cornsilk">「ゆちゃん（祐醬）你終於醒囉......我早就畫完了，來！我們到處走一走就回家吧～」</span></p>
+    <p>女孩伸一伸懶腰俐落地收好畫架和顏料蹲下來望著你微笑，你瞥一眼她制服上的學號姓名......</p>
+    <p style="text-align:center;"><span class="speak-darkseagreen">山田晴子やまだいのした</span></p>
+    <p>頓時，全身的血液瘋狂翻滾，<br>扭頭看向周遭的風景，<br>不安的情緒在心中擴大，<br>一棟應該是延平郡王祠的建築映入眼簾，<br>但廟宇似乎被改造為神社的模樣，<br>身為歷史系學生的大腦資料庫瞬間調出這段記憶：<br>「日治時期的鄭成功因具有日本人血統亦受到日人敬重，<br>宣布將清朝的延平郡王祠改為開山神社。」<br>你記得當時的臺灣總督樺山資紀還進獻了匾額「力挽迴瀾」，<br>掛在延平郡王祠正殿上方，頭皮發麻的往上一瞧......</p>
+    <img src="media/開山神社.jpg" width="500" alt="開山神社">
+    <p style="text-align:center; margin-top:20px;"><span class="rumble">所以我穿越回日治時期了嗎？</span></p>
+    <p>你嚇得跳了起來，六神無主的往四周亂竄，<br>在差點跌進一旁的水溝時及時煞車，望見自己在水中的倒影......</p>
+    <img src="media/狗.jpg" width="250" alt="狗">
+    <p style="text-align:center; margin-top:20px;"><span class="rumble">ＯＭＧ！ 我變成狗了？！</span></p>
+    <p>相較自己穿越的事實，這次你花了三秒便釐清並接受這個現狀，<br>畢竟能成為漂亮姊姊的狗應該是很多人的心願吧!</p>
+    <div class="choices">
+      <a class="choice-link" data-goto="似乎有人靠近">似乎有人靠近</a>
+    </div>
+  `
+};
+
+passages['似乎有人靠近'] = {
+  bg: 'bg10',
+  render: () => `
+    <p><span class="speak-aliceblue">「山田同學~你怎麼在這裡?」</span></p>
+    <p>突然聽到熟悉又陌生的聲音，你生硬的扭動狗頭，<br>竟然看到一個長相神似奶奶的年輕姑娘站在一旁</p>
+    <p><span class="speak-cornsilk">「藍藍~我在寫生阿，你看夕陽好美阿...」</span><br>山田摁去鬢邊的汗珠，微笑道</p>
+    <p><span class="speak-aliceblue">「你比較漂亮啦～」</span><br>被稱作藍藍的少女親暱的挽起山田的手，而山田的一雙美目在落日餘暉下閃閃發光，奶奶...噢不，應該是年輕的張藍同學信步帶你們向前走，你只好驅動四肢跟著前進...</p>
+    <p><span class="speak-aliceblue">「哈哈! 祐醬是不是剛睡醒，一副笨手笨腳的樣子」</span></p>
+    <p>......人家是你的寶貝孫女啦喂!!!</p>
+    <p><span class="speak-cornsilk">「齁，你不要笑牠啦，對了!我哥從東京寄了些有趣的東西回來，感覺藍藍會很有興趣。」</span></p>
+    <p><span class="speak-aliceblue">「你是說你那位在早稻田留學的哥哥嗎? 晴子，你們家的小孩都很優秀耶，一個搞藝術一個念法律。」</span></p>
+    <p><span class="speak-cornsilk">「藍藍的兄長不是也很有理想抱負嗎? 常常去參加甚麼...台灣文化協會的活動，聽說那裏的人都是本島的菁英分子呢!」</span></p>
+    <p><span class="speak-aliceblue">「哈哈!別人是，他又不一定是，我雖然也蠻支持他那些理念的，但他好像有些偏激了，感覺很危險......之前不是才發生甚麼治警事件嗎?」</span></p>
+    <p><span class="speak-cornsilk">「對耶...我記得有不少人被定罪入獄，還是少碰政治為妙...不過這還是給你看看好了。」</span></p>
+    <div class="choices">
+      <a class="choice-link" data-goto="晴子拿出傳單">晴子拿出傳單</a>
+    </div>
+  `
+};
+
+passages['晴子拿出傳單'] = {
+  bg: 'bg10',
+  render: () => `
+    <img src="media/傳單.png" width="500" alt="傳單">
+    <p><span class="speak-aliceblue">「疑!! 這不是這不是!! 謝文達在東京空投的傳單嗎? 好羨慕你哥哥可以見證那個場景喔~」</span></p>
+    <p><span class="speak-cornsilk">「對阿，藍藍你不覺得開飛機在首都環繞超帥的嗎? 好幾十萬張耶，就這樣在空中漫天飛舞，我哥當初震驚到立在原地無法動彈呢。」</span></p>
+    <p><span class="speak-aliceblue">「晴子你們內地人...不會對這件事情反感嗎? 畢竟謝文達是台灣總督府有意栽培的本島青年模範，他這樣開政府給的台北號去日本亂弄......」</span></p>
+    <p><span class="speak-cornsilk">「藍藍，你在這樣我就要生氣了，甚麼內地人本島人，我們都是在台灣出生的...當然是台灣人啊，雖然...我們不能念同一所學校，但我覺得藍藍甚至比我聰明呢~」</span></p>
+    <p>你望著奶奶雙手緊握傳單興奮的模樣，發覺她其實也很關注這些消息嘛，奶奶家因為是地主每年都能夠收不少田租，所以就算是女兒也可以到南二女就讀，山田因為是日本人，應該就是在南一女就讀，不過...他們家又是做甚麼的呢 ??</p>
+    <p><span class="speak-aliceblue">「我的晴子就是不一樣，好啦太陽快下山了，記得晚上要來陪我猜燈謎喔~」</span><br>什麼麻，奶奶怎麼一臉幸福的樣子，超怪。</p>
+    <p><span class="speak-aliceblue">「ゆちゃん要來嗎? 記得保護你的主人喔~」</span></p>
+    <p>奶奶把壓力給到我這隻狗狗身上了。<br>你無語凝望腳下，是一片夯實的泥土地，不同於現代平整的柏油，時有細細砂塵飄揚，也有坑洞凹凸...</p>
+    <p>當狗真難。</p>
+    <div class="choices">
+      <a class="choice-link" data-goto="你的任務">繼續</a>
+    </div>
+  `
+};
+
+passages['你的任務'] = {
+  bg: 'bg10',
+  render: () => {
+    state.mission = true;
+    return `
+      <div class="chapter-mark">本 回 任 務</div>
+      <div style="text-align:center; padding: 20px 0;">
+        <p style="font-size:18px;">✨ 任務一：釐清阿罵和山田的關係！</p>
+        <p style="font-size:18px;">✨ 任務二：了解山田的家世背景！</p>
+        <p style="color:var(--ink-soft); margin-top:30px;">找完線索並解開上述兩項任務即可進入下一幕</p>
+      </div>
+      <div class="choices">
+        <a class="choice-link" data-goto="主地圖">第一輪搜查</a>
+      </div>
+    `;
+  }
+};
+
+passages['主地圖'] = {
+  bg: 'bg5',
+  render: () => `
+    <div style="text-align:center;">
+      <p>✨點擊地圖以搜查！</p>
+      <p>✨點擊右下角線索背包瀏覽蒐集到的線索！</p>
+    </div>
+    <div class="map-wrapper" style="display:block; margin: 20px auto; text-align:center;">
+      <div style="position:relative; display:inline-block; max-width:100%;">
+        <img src="media/地圖.png" alt="主地圖" id="main-map" style="max-width:100%;">
+        <!-- 熱區由 JS 注入 (因要等 img onload 取得實際尺寸) -->
+        <div class="hot-area" data-coords="813,266,978,333" data-shape="rect" data-goto="學校" data-img="#main-map">
+          <span class="label">搜查學校</span>
+        </div>
+        <div class="hot-area" data-coords="516,327,594,353" data-shape="rect" data-goto="搜查宿舍" data-img="#main-map">
+          <span class="label">搜查宿舍</span>
+        </div>
+        <div class="hot-area" data-coords="78,306,272,374" data-shape="rect" data-goto="搜查糖廠" data-img="#main-map">
+          <span class="label">搜查糖廠</span>
+        </div>
+        <div class="hot-area" data-coords="31,439,219,498" data-shape="rect" data-goto="搜查山田家" data-img="#main-map">
+          <span class="label">搜查山田家</span>
+        </div>
+        <div class="hot-area" data-coords="617,668,833,730" data-shape="rect" data-goto="搜查張藍家" data-img="#main-map">
+          <span class="label">搜查張藍家</span>
+        </div>
+      </div>
+    </div>
+    <div class="choices">
+      <a class="choice-link" data-goto="🧰阿罵的箱子">🧰 阿罵的箱子</a>
+    </div>
+  `
+};
+
+passages['學校'] = {
+  bg: 'bg6',
+  render: () => `
+    <div style="text-align:center; padding: 60px 0;">
+      <p style="font-size:18px; color:var(--ink-soft);">待第三幕搜查</p>
+    </div>
+    <div class="choices">
+      <a class="choice-link" data-goto="主地圖">回主地圖</a>
+    </div>
+  `
+};
+
+passages['搜查宿舍'] = {
+  bg: 'bg12',
+  render: () => `
+    <p>『哇！這就是以前的學生宿舍嗎？我來好好看看和政大比誰比較差（？』</p>
+    <div style="text-align:center; margin: 20px 0;">
+      <div style="position:relative; display:inline-block; max-width:100%;">
+        <img src="media/宿舍地圖.png" alt="宿舍地圖" id="dorm-map" style="max-width:100%;">
+        <div class="hot-area circle" data-coords="358,209,21" data-shape="circle" data-goto="雨衣" data-img="#dorm-map">
+          <span class="pulse-dot"></span>
+          <span class="label">雨衣</span>
+        </div>
+        <div class="hot-area circle" data-coords="1024,86,24" data-shape="circle" data-goto="海報" data-img="#dorm-map">
+          <span class="pulse-dot"></span>
+          <span class="label">海報</span>
+        </div>
+        <div class="hot-area circle" data-coords="264,845,24" data-shape="circle" data-goto="榻榻米" data-img="#dorm-map">
+          <span class="pulse-dot"></span>
+          <span class="label">榻榻米</span>
+        </div>
+      </div>
+    </div>
+    <div class="choices">
+      <a class="choice-link" data-goto="主地圖">回主地圖</a>
+    </div>
+  `
+};
+
+passages['雨衣'] = {
+  bg: 'bg12',
+  render: () => `
+    <p>日本時期台南女中學生雨衣，內繡有學生名牌</p>
+    <img src="media/雨衣.png" width="250" alt="雨衣">
+    <div class="choices">
+      <a class="choice-link" data-action="back">返回</a>
+    </div>
+  `
+};
+
+passages['海報'] = {
+  bg: 'bg12',
+  render: () => `
+    <p>大會操留影</p>
+    <img src="media/海報.png" width="400" alt="海報">
+    <div class="choices">
+      <a class="choice-link" data-action="back">返回</a>
+    </div>
+  `
+};
+
+passages['榻榻米'] = {
+  bg: 'bg13',
+  render: () => {
+    state.diaryone = true;
+    return `
+      <p style="text-align:center;"><span class="smear" style="font-size:22px;">榻榻米下面藏有一頁日記！</span></p>
+      <img src="media/張藍日記.png" width="300" alt="張藍日記">
+      <div class="choices">
+        <a class="choice-link" data-action="back">返回</a>
+        <a class="choice-link" data-goto="主地圖">回主地圖</a>
+      </div>
+    `;
+  }
+};
+
+passages['搜查糖廠'] = {
+  bg: 'bg5',
+  render: () => `
+    <p>你夾著尾吧偷偷潛入糖廠，<br>高聳的榨蔗機、蒸發罐、結晶桶令你眼花撩亂，</p>
+    <p>「要找線索的話...先進入文件室之類的好了」</p>
+    <img src="media/糖廠.jpg" width="500" alt="糖廠">
+    <div class="code-form">
+      <input type="text" id="code-sugar" placeholder="輸入燈謎答案以進入搜查" autofocus>
+      <button id="btn-sugar">輸 入</button>
+      <div class="code-error" id="err-sugar"></div>
+    </div>
+    <p>查看燈謎👉🏻 <a class="inline-link" data-goto="搜查山田家">搜查山田家</a></p>
+    <div class="choices">
+      <a class="choice-link" data-goto="主地圖">回主地圖</a>
+    </div>
+  `,
+  after: () => {
+    document.getElementById('btn-sugar').onclick = () => {
+      const v = document.getElementById('code-sugar').value.trim();
+      if (v === '一以貫之') goto('搜查');
+      else showError('err-sugar', '輸入錯誤，宿舍藏有提示', 'code-sugar');
+    };
+    document.getElementById('code-sugar').addEventListener('keydown', e => {
+      if (e.key === 'Enter') document.getElementById('btn-sugar').click();
+    });
+  }
+};
+
+passages['搜查'] = {
+  bg: 'bg8',
+  render: () => {
+    state.rice = true;
+    state.ricesugar = true;
+    return `
+      <div class="img-row">
+        <img src="media/蓬萊米.png" width="300" alt="蓬萊米">
+        <img src="media/米糖.png" width="300" alt="米糖">
+      </div>
+      <p>在察看線索時，你聽見有人嘆氣的聲音......</p>
+      <div class="choices">
+        <a class="choice-link" data-goto="抬頭找尋聲音來源">抬頭找尋聲音來源</a>
+      </div>
+    `;
+  }
+};
+
+/* ----- 視覺小說：糖廠對話 ----- */
+function vnRender(name, lines, choicesAfter) {
+  // lines: [text, text, ...]，最後一頁顯示 choicesAfter（HTML 字串）
+  const html = `
+    <div class="vn-scene">
+      <div class="vn-character"><img src="media/會計員.png" alt="會計員"></div>
+      <div class="vn-box">
+        <span class="vn-name">${name}</span>
+        <div class="vn-text" id="vn-text"></div>
+        <div class="vn-next" id="vn-next">▼ 點擊繼續</div>
+      </div>
+    </div>
+  `;
+  return { html, lines, choicesAfter };
+}
+function vnAttach(passageName, lines, name, choicesAfter) {
+  passages[passageName].after = () => {
+    let idx = 0;
+    const textEl = document.getElementById('vn-text');
+    const nextEl = document.getElementById('vn-next');
+    const advance = () => {
+      if (idx < lines.length) {
+        textEl.style.opacity = 0;
+        setTimeout(() => {
+          textEl.innerHTML = lines[idx];
+          textEl.style.opacity = 1;
+          idx++;
+          if (idx >= lines.length) {
+            nextEl.style.display = 'none';
+            const wrap = document.createElement('div');
+            wrap.className = 'choices';
+            wrap.innerHTML = choicesAfter;
+            textEl.parentNode.appendChild(wrap);
+            bindChoices(wrap);
+          }
+        }, 200);
+      }
+    };
+    advance();
+    document.querySelector('.vn-box').addEventListener('click', e => {
+      if (idx < lines.length) advance();
+    });
+  };
+}
+
+passages['抬頭找尋聲音來源'] = {
+  bg: 'bg14',
+  render: () => vnRender('糖廠工作人員', [], '').html
+};
+vnAttach('抬頭找尋聲音來源',
+  [
+    '哀...真糟糕......最近受到蓬萊米培育成功的影響，甘蔗收購價格也會因米作收入增長而被迫提高......',
+    '恩...當初先是土地收穫不佳，農民與日糖間又不信任，再來工場機器也運轉不良。<br>咋！好險我是會計課的社員，不用煩惱這些問題。',
+    '哇！狗！？哪來的狗（碰！）',
+    '哎呀！我的帳冊，噢......真是笨手笨腳的...',
+  ],
+  '糖廠工作人員',
+  `<a class="choice-link" data-goto="雖然不知道有甚麼用，就把帳冊叼走吧">雖然不知道有甚麼用，就把帳冊叼走吧</a>
+   <a class="choice-link" data-goto="趁他撿東西時竄出去">趁他撿東西時竄出去</a>
+   <a class="choice-link" data-goto="咬起帳冊走過去給他">咬起帳冊走過去給他</a>`
+);
+
+passages['雖然不知道有甚麼用，就把帳冊叼走吧'] = {
+  bg: 'bg14',
+  render: () => vnRender('會計員', [], '').html
+};
+vnAttach('雖然不知道有甚麼用，就把帳冊叼走吧',
+  ['（你被一把抓了起來）到底是誰家的狗？？（看了看項圈）山田家！！<br>你在這裡等一下，我找人帶你回去。'],
+  '會計員',
+  `<a class="choice-link" data-goto="你被關在裡面等">你被關在裡面等</a>`
+);
+
+passages['趁他撿東西時竄出去'] = {
+  bg: 'bg14',
+  render: () => vnRender('會計員', [], '').html
+};
+vnAttach('趁他撿東西時竄出去',
+  ['（你被一把抓了回去）到底是誰家的狗？？<br>（看了看項圈）山田家！！你在這裡等一下，我找人帶你回去。'],
+  '會計員',
+  `<a class="choice-link" data-goto="你被關在裡面等">你被關在裡面等</a>`
+);
+
+passages['咬起帳冊走過去給他'] = {
+  bg: 'bg14',
+  render: () => vnRender('會計員', [], '').html
+};
+vnAttach('咬起帳冊走過去給他',
+  ['ㄡ...是隻乖狗狗'],
+  '會計員',
+  `<a class="choice-link" data-goto="被摸摸頭">被摸摸頭</a>`
+);
+
+passages['被摸摸頭'] = {
+  bg: 'bg14',
+  render: () => `
+    <p>在靠近他時，你突然聞到一個很香的味道<br>好熟悉喔！！是甚麼呢？？</p>
+    <p style="text-align:center;"><span class="rumble" style="font-size:22px;">．．．巧可力！</span></p>
+    <p style="text-align:center;"><span class="rumble" style="font-size:22px;">還是．．．明治巧可力！</span></p>
+    <p>狗的嗅覺實在是太神了🥳🥳🥳</p>
+    <img src="media/聞巧克力.jpg" width="300" alt="聞巧克力">
+    <p>理智告訴你現在的身體不能吃巧克力<br>但鼻子還是瘋狂的嗅阿嗅<br>口水不斷的湧出</p>
+    <div class="choices">
+      <a class="choice-link" data-goto="聞阿聞">聞阿聞</a>
+    </div>
+  `
+};
+
+passages['聞阿聞'] = {
+  bg: 'bg19',
+  render: () => vnRender('會計員', [], '').html
+};
+vnAttach('聞阿聞',
+  [
+    '鼻子真靈，這是明治製糖株式會社的巧克力。',
+    '他們的社長相馬半治，早年曾前往歐美學習糖業，後來因為日俄戰爭的因素來到臺灣，將事業的版圖，擴大至製菓、製乳業。',
+    '臺灣大多數的製糖會社主要的業務都是輸出原料糖到日本本土，<br>但其中幾間製糖會社，受到糖業景氣波動的影響，<br>開始考慮產業上下游整合的發展，其中起步較早的便是明治製糖株式會社，<br>可真有商業頭腦！',
+    '噯！你不能吃啦，到底是誰家的狗？？（看了看項圈）山田家！！<br>你在這裡等一下，我找人帶你回去。',
+  ],
+  '會計員',
+  `<a class="choice-link" data-goto="他走了出去">他走了出去</a>`
+);
+
+passages['他走了出去'] = {
+  bg: 'bg19',
+  render: () => `
+    <p>會計員離去後，你發現一個熟悉的機器在他背後的櫃子裡</p>
+    <img src="media/機器.jpg" width="300" alt="機器">
+    <p style="text-align:center;"><span class="rumble" style="font-size:22px;">新井式迴轉抽籤器組！</span></p>
+    <p>天哪，能穿越回來真是太好了～</p>
+    <p>這可是在日劇或日本動畫裡<br>商店街在抽獎時會轉動一種機器，<br>裡面裝有許多數字球，根據掉出來的數字球決定獎項，<br>以前小朋友去買巧克力時<br>就可以玩這個抽獎～</p>
+    <div class="choices">
+      <a class="choice-link" data-goto="忍不住跳上去嘗試">忍不住跳上去嘗試</a>
+    </div>
+  `
+};
+
+passages['忍不住跳上去嘗試'] = {
+  bg: 'bg14',
+  render: () => `
+    <p>你伸出爪子撥動機器<br>傳出小球們彼此碰撞的清脆聲<br>喀拉喀拉的一顆顆滾出來</p>
+    <img src="media/追著球跑.jpg" width="300" alt="追著球跑">
+    <p>自古以來球對狗勾有種無法抗拒的魅力<br>更何況是這麼多顏色鮮豔的木珠?<br>你興奮的把所有球轉光<br>追著散落一地的他們愉快奔跑</p>
+    <img src="media/玩球.jpg" width="300" alt="玩球">
+    <div class="choices">
+      <a class="choice-link" data-goto="腳步聲傳來">腳步聲傳來</a>
+    </div>
+  `
+};
+
+passages['腳步聲傳來'] = {
+  bg: 'bg14',
+  render: () => `
+    <p>乾 我到底在幹嘛 ??<br>oh my god！！ 我真的變成用四肢思考的生物了</p>
+    <p>你慌亂不已<br>情急之下把所有球先唅進嘴裡<br>好險他們都很小<br>此時你狹長的口腔中塞滿木珠<br>滿嘴油漆和木頭味令你想吐......</p>
+    <div class="choices">
+      <a class="choice-link" data-goto="門打開">門打開</a>
+    </div>
+  `
+};
+
+passages['門打開'] = {
+  bg: 'bg14',
+  render: () => `
+    <p>「欸？？跑哪去了？阿！就是這隻！」</p>
+    <p>你被帶了出去，<br>即使心臟怦怦跳，<br>還是拚命的緊閉嘴巴．．．</p>
+    <div class="choices">
+      <a class="choice-link" data-goto="出糖廠">出糖廠</a>
+    </div>
+  `
+};
+
+passages['出糖廠'] = {
+  bg: 'bg5',
+  render: () => `
+    <p>沿途，你忍著找一個地方挖洞<br>把滿是口水的球球們埋起來收藏的衝動<br>回到山田家把它們弄乾，整整齊齊的一字排開。</p>
+    <img src="media/球球.jpg" width="380" alt="球球">
+    <p>好療育的感覺~</p>
+    <p>你想起之前在張藍家找到的日記內容<br>似乎和這個遊戲有關??</p>
+    <div class="choices">
+      <a class="choice-link" data-goto="搜查張藍家">回搜查張藍家確認</a>
+      <a class="choice-link" data-goto="前往解謎">前往解謎</a>
+    </div>
+  `
+};
+
+passages['前往解謎'] = {
+  bg: 'bg5',
+  render: () => `
+    <div class="code-form">
+      <input type="text" id="code-num" placeholder="輸入6位中獎數字" autofocus maxlength="6">
+      <button id="btn-num">輸 入</button>
+      <div class="code-error" id="err-num"></div>
+    </div>
+    <div class="choices">
+      <a class="choice-link" data-action="back">返回</a>
+    </div>
+  `,
+  after: () => {
+    document.getElementById('btn-num').onclick = () => {
+      const v = document.getElementById('code-num').value.trim();
+      if (v === '388047') goto('巧克力數字球迷題解答');
+      else showError('err-num', '輸入錯誤', 'code-num');
+    };
+    document.getElementById('code-num').addEventListener('keydown', e => {
+      if (e.key === 'Enter') document.getElementById('btn-num').click();
+    });
+  }
+};
+
+passages['巧克力數字球迷題解答'] = {
+  bg: 'bg6',
+  render: () => {
+    state.dad = true;
+    queueKeyClueCheck();
+    return `
+      <p style="text-align:center;">竟然中獎了！你看到一張......</p>
+      <img src="media/員工證.png" width="300" alt="員工證">
+      <div class="choices">
+        <a class="choice-link" data-goto="主地圖">回主地圖</a>
+      </div>
+    `;
+  }
+};
+
+passages['你被關在裡面等'] = {
+  bg: 'bg5',
+  render: () => `
+    <p>好不容易進來糖廠<br>又被趕出去了</p>
+    <div class="choices">
+      <a class="choice-link" data-goto="主地圖">回主地圖</a>
+    </div>
+  `
+};
+
+passages['搜查山田家'] = {
+  bg: 'bg6',
+  render: () => {
+    state.light = true;
+    return `
+      <p>漂亮山田親手餵你吃了些東西<br>在你饜足的享受完大餐後逕自回房整理畫具</p>
+      <p>『阿！我不是來當寵物的，張怡君醒醒！』</p>
+      <p>你起身溜進山田的書房<br>發現了她帶回來的燈謎和油畫創作《ゆり》</p>
+      <div class="img-row">
+        <img src="media/第二幕謎題.png" width="500" alt="第二幕謎題">
+        <img src="media/百合.png" width="350" alt="百合">
+      </div>
+      <p>畫中描繪擺放在桌角，插滿百合花與菊花的花瓶。<br>瓶身頸部較長、圓肩，瓶內的百合花綻放，<br>佔據畫面將近一半的面積。<br>雖然你不懂藝術，<br>但看著畫裡厚重的筆觸塗抹<br>與重疊描繪花朵飽滿向外盛開的姿態<br>這樣對花卉與靜物形體的準確描寫，<br>似乎反映著小畫家山田的繪畫功力呢 !</p>
+      <div class="choices">
+        <a class="choice-link" data-goto="搜查糖廠">前往搜查糖廠答題</a>
+        <a class="choice-link" data-goto="主地圖">回主地圖</a>
+      </div>
+    `;
+  }
+};
+
+passages['搜查張藍家'] = {
+  bg: 'bg9',
+  render: () => {
+    state.diarytwo = true;
+    state.diarythree = true;
+    return `
+      <p>你在張藍的書桌上找到幾頁日記<br>似乎是記錄著日常瑣事和學習內容</p>
+      <p>『終於看到日記本人了，<br>之前阿罵那個箱子裡的日記根本啥都看不清楚<br>害！還不是要本姑娘穿越回來田調。』<br>你暗暗估囔</p>
+      <img src="media/張藍日記二.png" width="300" alt="張藍日記二">
+      <p>疑?? 阿罵附的這張地圖也太簡略了吧...<br>點進這些地方可以看見那裡的風景嗎？</p>
+      <div style="text-align:center; margin: 20px 0;">
+        <div style="position:relative; display:inline-block; max-width:100%;">
+          <img src="media/古蹟地圖.png" alt="古蹟地圖" id="ruin-map" style="max-width:50%;">
+          <div class="hot-area circle" data-coords="426,521,24" data-shape="circle" data-goto="赤崁樓" data-img="#ruin-map">
+            <span class="pulse-dot"></span>
+            <span class="label">赤崁樓</span>
+          </div>
+          <div class="hot-area circle" data-coords="577,965,24" data-shape="circle" data-goto="孔子廟" data-img="#ruin-map">
+            <span class="pulse-dot"></span>
+            <span class="label">孔子廟</span>
+          </div>
+          <div class="hot-area circle" data-coords="777,1231,18" data-shape="circle" data-goto="五妃廟" data-img="#ruin-map">
+            <span class="pulse-dot"></span>
+            <span class="label">五妃廟</span>
+          </div>
+          <div class="hot-area circle" data-coords="987,1005,24" data-shape="circle" data-goto="開山神社" data-img="#ruin-map">
+            <span class="pulse-dot"></span>
+            <span class="label">開山神社</span>
+          </div>
+        </div>
+      </div>
+      <p>這又是甚麼？？好可愛的三個球球喔～（想玩</p>
+      <img src="media/張藍日記三.png" width="300" alt="張藍日記三">
+      <div class="choices">
+        <a class="choice-link" data-goto="主地圖">回主地圖</a>
+        <a class="choice-link" data-action="back">返回</a>
+      </div>
+    `;
+  },
+  after: () => {
+    // 線索蒐集完成檢查
+    if (state.rbuilding && state.cbuilding && state.mbuilding && state.fbuilding) {
+      setTimeout(() => {
+        showModal('線索已找齊', `
+          <p>你已經蒐集到四組線索，請前往背包進行線索排列解謎。</p>
+          <div class="choices" style="margin-top:14px;">
+            <a class="choice-link" data-action="open-inv">開啟線索背包</a>
+          </div>
+        `);
+      }, 600);
+    }
+  }
+};
+
+passages['赤崁樓'] = {
+  bg: 'bg15',
+  render: () => {
+    state.rbuilding = true;
+    return `
+      <img src="media/赤崁樓線索.png" width="400" alt="赤崁樓線索">
+      <div class="choices">
+        <a class="choice-link" data-goto="搜查張藍家">回搜查張藍家</a>
+      </div>
+    `;
+  }
+};
+passages['五妃廟'] = {
+  bg: 'bg16',
+  render: () => {
+    state.fbuilding = true;
+    return `
+      <img src="media/五妃墓線索.png" width="400" alt="五妃墓線索">
+      <div class="choices">
+        <a class="choice-link" data-goto="搜查張藍家">回搜查張藍家</a>
+      </div>
+    `;
+  }
+};
+passages['孔子廟'] = {
+  bg: 'bg17',
+  render: () => {
+    state.cbuilding = true;
+    return `
+      <img src="media/孔廟線索.png" width="400" alt="孔廟線索">
+      <div class="choices">
+        <a class="choice-link" data-goto="搜查張藍家">回搜查張藍家</a>
+      </div>
+    `;
+  }
+};
+passages['開山神社'] = {
+  bg: 'bg18',
+  render: () => {
+    state.mbuilding = true;
+    return `
+      <img src="media/開山神社線索.png" width="400" alt="開山神社線索">
+      <div class="choices">
+        <a class="choice-link" data-goto="搜查張藍家">回搜查張藍家</a>
+      </div>
+    `;
+  }
+};
+
+passages['🧰阿罵的箱子'] = {
+  bg: 'bg11',
+  render: () => {
+    state.plane = true;
+    state.police = true;
+    state.tatami = true;
+    return `
+      <p style="text-align:center;">打開箱子，發現裡頭收藏著阿罵的記憶碎片......</p>
+      <div class="img-row">
+        <img src="media/謝文達.jpg" width="330" alt="謝文達">
+        <img src="media/女學生的榻榻米.png" width="330" alt="女學生的榻榻米">
+        <img src="media/治警事件.png" width="330" alt="治警事件">
+      </div>
+      <div class="choices">
+        <a class="choice-link" data-goto="主地圖">回主地圖</a>
+      </div>
+    `;
+  }
+};
+
+passages['線索組合'] = {
+  bg: null,
+  render: () => `
+    <h3 style="color:var(--accent-deep);">從拿到的線索來看，好像可以從上到下排成一個16宮格的密碼組合呢！</h3>
+    <p>前往張藍家確認線索 <a class="inline-link" data-goto="搜查張藍家">搜查張藍家</a></p>
+    <table class="combine-table">
+      ${[1,2,3,4].map(i => `
+        <tr>
+          <td><strong>${['一','二','三','四'][i-1]}：${selectClueHTML('cluecombine'+i)}</strong></td>
+          <td><div class="combine-preview" id="preview-${i}">${cluePreviewHTML(state['cluecombine'+i])}</div></td>
+        </tr>
+      `).join('')}
+    </table>
+    <div class="choices">
+      <a class="choice-link" data-goto="密碼輸入">輸入密碼</a>
+      <a class="choice-link" data-action="back">返回</a>
+    </div>
+  `,
+  after: () => {
+    [1,2,3,4].forEach(i => {
+      const sel = document.getElementById('cluecombine'+i);
+      sel.addEventListener('change', () => {
+        state['cluecombine'+i] = sel.value;
+        const prev = document.getElementById('preview-'+i);
+        prev.style.opacity = 0;
+        setTimeout(() => {
+          prev.innerHTML = cluePreviewHTML(sel.value);
+          prev.style.opacity = 1;
+        }, 200);
+      });
+    });
+  }
+};
+
+passages['密碼輸入'] = {
+  bg: 'bg13',
+  render: () => `
+    <p style="text-align:center;">將四組線索拼成八位密碼，輸入以開啟下一個調查目標。</p>
+    <div class="code-form">
+      <input type="text" id="code-ruins" placeholder="輸入8位數字古蹟地圖密碼" autofocus maxlength="8">
+      <button id="btn-ruins">輸 入</button>
+      <div class="code-error" id="err-ruins"></div>
+    </div>
+    <div class="choices">
+      <a class="choice-link" data-action="back">返回</a>
+    </div>
+  `,
+  after: () => {
+    document.getElementById('btn-ruins').onclick = () => {
+      const v = document.getElementById('code-ruins').value.trim();
+      if (v === '25258365') goto('搜索');
+      else showError('err-ruins', '輸入錯誤', 'code-ruins');
+    };
+    document.getElementById('code-ruins').addEventListener('keydown', e => {
+      if (e.key === 'Enter') document.getElementById('btn-ruins').click();
+    });
+  }
+};
+
+passages['搜索'] = {
+  bg: 'bg13',
+  render: () => {
+    state.uniform = true;
+    return `
+      <p>你從榻榻米下翻出一件整齊的制服<br>相同姓名與學號的刺繡再次映入眼簾</p>
+      <p style="text-align:center;"><span class="speak-chocolate">山田晴</span></p>
+      <p>望著針線鐫刻下得清秀字體<br>有幾分眼熟...<br>這似乎是張藍的字跡 ?</p>
+      <p>你想起在阿罵箱子裡其中一份紀錄提到了<br>那時女高中生關於制服的一段特殊回憶</p>
+      <img src="media/學姊妹.png" width="300" alt="學姊妹">
+      <p>該不會...是阿罵偷偷做給山田同學的 ?<br>但這個明顯就還沒完成丫<br>難道最後沒有送出去嗎 ? ?</p>
+      <p>齁齁 !!<br>你聞到其中有一股紙片潮濕的味道</p>
+      <p>(點擊制服第二個鈕扣打開紙條)</p>
+      <div style="text-align:center; margin: 20px 0;">
+        <div style="position:relative; display:inline-block; max-width:100%;">
+          <img src="media/制服.jpeg" alt="制服" id="uniform-map" style="max-width:60%;">
+          <div class="hot-area circle" data-coords="577,320,30" data-shape="circle" data-goto="鈕扣" data-img="#uniform-map">
+            <span class="pulse-dot"></span>
+            <span class="label">鈕扣</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+};
+
+passages['鈕扣'] = {
+  bg: 'bg13',
+  render: () => {
+    state.paper = true;
+    queueKeyClueCheck();
+    return `
+      <img src="media/紙條.png" width="400" alt="紙條">
+      <div class="choices">
+        <a class="choice-link" data-goto="主地圖">回主地圖</a>
+      </div>
+    `;
+  }
+};
+
+passages['答題環節'] = {
+  bg: null,
+  render: () => `
+    <div class="chapter-mark">第 二 幕・思 緒</div>
+    <p>你能夠蒐集的線索已經找的差不多，對現在發生的事情也有了一定了解。<br>沉澱下來試著整理所有線索，找出調查的結論吧！</p>
+    <div class="qa-block">
+      <label>【結論1】 根據線索，張藍與山田的關係為：</label>
+      <select id="clue1">
+        <option value="無">請選擇</option>
+        <option value="同學">同學</option>
+        <option value="朋友">朋友</option>
+        <option value="曖昧">曖昧</option>
+      </select>
+    </div>
+    <div class="qa-block">
+      <label>【結論2】 根據線索，山田家的背景是甚麼？</label>
+      <select id="clue2">
+        <option value="無">請選擇</option>
+        <option value="政府機關工作">政府機關工作</option>
+        <option value="糖廠重要幹部">糖廠重要幹部</option>
+        <option value="學校教師">學校教師</option>
+      </select>
+    </div>
+    <div class="choices">
+      <a class="choice-link" id="btn-submit-qa">送出結論</a>
+    </div>
+  `,
+  after: () => {
+    document.getElementById('clue1').value = state.clue1;
+    document.getElementById('clue2').value = state.clue2;
+    document.getElementById('btn-submit-qa').onclick = () => {
+      state.clue1 = document.getElementById('clue1').value;
+      state.clue2 = document.getElementById('clue2').value;
+      if (state.clue1 === '曖昧' && state.clue2 === '糖廠重要幹部') {
+        showModal('思緒結果', `
+          <p style="font-size:16px;">你的推論沒錯！</p>
+          <div class="choices" style="margin-top:14px;">
+            <a class="choice-link" data-goto="第三幕">進入下一章</a>
+          </div>
+        `);
+      } else {
+        showModal('思緒結果', `<p>好像不對喔，再想想看！</p>`);
+      }
+    };
+  }
+};
+
+passages['第三幕'] = {
+  bg: null,
+  render: () => `
+    <div class="ending-card">
+      <div class="chapter-mark">第 三 幕</div>
+      <h1>未 完 待 續</h1>
+      <div class="small-tag">TO BE CONTINUED</div>
+      <img src="media/第三幕.jpg" alt="第三幕">
+      <div class="quote">
+        「能與一位日本人結下如此般的友誼是我未曾設想的，<br>
+        世界上果然沒有絕對的事，<br>
+        日本人不全然是壞人，<br>
+        而我對山田同學的情感或許也不只是友誼……<br>
+        但願有一天能親口告訴她。」
+      </div>
+      <p style="color:var(--ink-soft); margin-top:30px;">作者還在努力撰寫中，敬請期待。</p>
+      <div class="choices" style="margin-top:30px;">
+        <a class="choice-link" data-goto="start">回到首頁</a>
+      </div>
+    </div>
+  `
+};
+
+/* =========================================================
+   工具函式
+   ========================================================= */
+
+function selectClueHTML(varName) {
+  const cur = state[varName];
+  const opts = ['無', '赤崁樓線索', '開山神社線索', '五妃廟線索', '孔廟線索'];
+  return `
+    <select id="${varName}">
+      ${opts.map(o => `<option value="${o}" ${cur===o ? 'selected':''}>${o==='無'?'選擇線索':o}</option>`).join('')}
+    </select>
+  `;
+}
+
+const clueTables = {
+  '赤崁樓線索':   [['25','78','96','57']],
+  '開山神社線索': [['94','05','19','25']],
+  '五妃廟線索':   [['04','65','10','25']],
+  '孔廟線索':     [['81','14','83','17']],
+};
+
+function cluePreviewHTML(name) {
+  if (!name || name === '無') return '<span class="combine-empty">~選擇線索~</span>';
+  const t = clueTables[name];
+  if (!t) return '<span class="combine-empty">~選擇線索~</span>';
+  return `<table border="1"><tr>${t[0].map(n => `<td>${n}</td>`).join('')}</tr></table>`;
+}
+
+/* 渲染段落 */
+function goto(name) {
+  const passage = passages[name];
+  if (!passage) {
+    console.warn('未知段落：', name);
+    return;
+  }
+  // 推入歷史（不返回頁不入歷史）
+  if (state.history[state.history.length-1] !== name) {
+    state.history.push(name);
+    if (state.history.length > 50) state.history.shift();
+  }
+  // 切背景
+  setBg(passage.bg);
+
+  // 渲染
+  const node = document.getElementById('passage');
+  node.classList.remove('fade-in');
+  node.innerHTML = `<div class="passage-content fade-in">${passage.render()}</div>`;
+  // 觸發動畫
+  void node.offsetWidth;
+  node.firstElementChild.classList.add('fade-in');
+
+  // 綁定段落內連結
+  bindChoices(node);
+
+  // 自定義初始化
+  if (passage.after) passage.after();
+
+  // 部署熱區
+  initHotAreas();
+
+  // 更新背包數字
+  updateInvBadge();
+
+  // 滾到上方
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function back() {
+  // 退回上一個有意義的段落
+  if (state.history.length >= 2) {
+    state.history.pop(); // 當前
+    const prev = state.history.pop();
+    goto(prev);
+  } else {
+    goto('主地圖');
+  }
+}
+
+function bindChoices(scope) {
+  scope.querySelectorAll('[data-goto]').forEach(el => {
+    el.addEventListener('click', e => {
+      e.preventDefault();
+      goto(el.dataset.goto);
+    });
+  });
+  scope.querySelectorAll('[data-action="back"]').forEach(el => {
+    el.addEventListener('click', e => {
+      e.preventDefault();
+      back();
+    });
+  });
+  scope.querySelectorAll('[data-action="open-inv"]').forEach(el => {
+    el.addEventListener('click', e => {
+      e.preventDefault();
+      hideModal();
+      openInventory();
+    });
+  });
+}
+
+/* 場景背景圖：沿用原 tag 對應 media 內的素材 */
+function setBg(tag) {
+  const el = document.getElementById('scene-bg');
+  if (!tag) {
+    el.classList.remove('show');
+    el.style.backgroundImage = '';
+    return;
+  }
+  // 嘗試 .jpg / .png
+  const tryUrls = [`media/${tag}.jpg`, `media/${tag}.png`, `media/${tag}.JPG`, `media/${tag}.PNG`];
+  let i = 0;
+  const test = () => {
+    if (i >= tryUrls.length) {
+      el.classList.remove('show');
+      return;
+    }
+    const img = new Image();
+    img.onload = () => {
+      el.style.backgroundImage = `url("${tryUrls[i]}")`;
+      el.classList.add('show');
+    };
+    img.onerror = () => { i++; test(); };
+    img.src = tryUrls[i];
+  };
+  test();
+}
+
+/* 熱區：將原 imageMap 的 coords 換算為相對位置 */
+function initHotAreas() {
+  document.querySelectorAll('.hot-area').forEach(area => {
+    const imgSel = area.dataset.img;
+    if (!imgSel) return;
+    const img = document.querySelector(imgSel);
+    if (!img) return;
+    const apply = () => {
+      const rect = { w: img.naturalWidth, h: img.naturalHeight };
+      if (!rect.w) return;
+      const dispW = img.clientWidth;
+      const dispH = img.clientHeight;
+      const sx = dispW / rect.w;
+      const sy = dispH / rect.h;
+      const c = area.dataset.coords.split(',').map(Number);
+      if (area.dataset.shape === 'rect') {
+        const [x1, y1, x2, y2] = c;
+        area.style.left   = (x1 * sx) + 'px';
+        area.style.top    = (y1 * sy) + 'px';
+        area.style.width  = ((x2 - x1) * sx) + 'px';
+        area.style.height = ((y2 - y1) * sy) + 'px';
+      } else if (area.dataset.shape === 'circle') {
+        const [cx, cy, r] = c;
+        const rPx = r * Math.min(sx, sy) * 1.4; // 稍微放大方便點
+        area.style.left   = (cx * sx - rPx) + 'px';
+        area.style.top    = (cy * sy - rPx) + 'px';
+        area.style.width  = (rPx * 2) + 'px';
+        area.style.height = (rPx * 2) + 'px';
+      }
+      area.style.display = 'block';
+    };
+    if (img.complete && img.naturalWidth) {
+      apply();
+    } else {
+      img.addEventListener('load', apply, { once: true });
+    }
+    // 重設大小重新換算
+    let resizeT;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeT);
+      resizeT = setTimeout(apply, 80);
+    });
+
+    // 點擊綁定
+    if (!area.__bound) {
+      area.__bound = true;
+      area.addEventListener('click', () => {
+        if (area.dataset.goto) goto(area.dataset.goto);
+      });
+    }
+  });
+}
+
+/* 密碼錯誤顯示 */
+function showError(errId, msg, inputId) {
+  const e = document.getElementById(errId);
+  e.textContent = msg;
+  if (inputId) {
+    const input = document.getElementById(inputId);
+    input.classList.remove('shake-x');
+    void input.offsetWidth;
+    input.classList.add('shake-x');
+  }
+  setTimeout(() => { if (e.textContent === msg) e.textContent = ''; }, 2400);
+}
+
+/* 提示框 */
+function showModal(title, bodyHTML) {
+  document.getElementById('modal-title').innerHTML = title;
+  const body = document.getElementById('modal-body');
+  body.innerHTML = bodyHTML;
+  bindChoices(body);
+  document.getElementById('modal').classList.add('show');
+}
+function hideModal() {
+  document.getElementById('modal').classList.remove('show');
+}
+document.getElementById('modal-close').onclick = hideModal;
+document.getElementById('modal').addEventListener('click', e => {
+  if (e.target.id === 'modal') hideModal();
+});
+
+/* 線索背包 */
+function openInventory() {
+  renderInventory();
+  document.getElementById('inv-drawer').classList.add('open');
+}
+function closeInventory() {
+  document.getElementById('inv-drawer').classList.remove('open');
+}
+document.getElementById('inv-toggle').onclick = openInventory;
+document.getElementById('inv-close').onclick = closeInventory;
+
+function renderInventory() {
+  const body = document.getElementById('inv-body');
+
+  const groups = [];
+
+  // 任務
+  const taskItems = [];
+  if (state.mission) {
+    taskItems.push({
+      name: '你的任務',
+      content: '任務一：釐清阿罵和山田的關係<br>任務二：了解山田的家世背景<br>找完線索並解開上述兩項任務即可進入下一幕'
+    });
+  }
+  groups.push({ title: '⭐ 你的任務', items: taskItems });
+
+  // 阿罵的箱子
+  const boxItems = [];
+  if (state.plane) boxItems.push({
+    name: '【謝文達事件】',
+    content: '謝文達，1901年出生，是我們臺灣第一位飛行員，還記得四年前在日本舉行的飛行大會，他成為了第一個獲獎的臺灣人，當時造成多大的轟動阿，人人都想一睹他的風采，他也證明了臺灣人在能力上絕對不輸給日本人，欠缺的只是機會而已。<br>去年，臺灣議會請願運動蓬勃發展，謝文達為了聲援，駕機在東京上空散發宣傳單，那場景應該很壯觀......只是之後就再也沒有他的消息了，不過臺灣人還是以他為榮。'
+  });
+  if (state.tatami) boxItems.push({
+    name: '【女學生的榻榻米】',
+    content: '制服褶裙非常難整理，只要洗過後沒有熨斗，就會有非常難看的摺痕，可是宿舍沒有熨斗怎麼辦....榻榻米！只要睡前把百褶裙的摺痕理順，鋪上一片紙板壓在榻榻米下，隔天早上就有摺痕整齊的裙子可穿了！<br>榻榻米真是女學生的法寶，有了榻榻米，我們就可以整潔優雅地去上學了'
+  });
+  if (state.police) boxItems.push({
+    name: '【治警事件】',
+    content: '去年(1923)，蔡培火和蔣渭水組成臺灣議會期成同盟，同年2月初即遭禁止，活動轉往東京進行，然而此時《治安警察法》已在日本與台灣施行，警察便以此名義，進行搜捕、跟監，迫害與會成員。<br>當時才剛發生完西來庵事件，時機敏感，這場大搜捕也讓全島人心惶惶。'
+  });
+  groups.push({ title: '⭐ 阿罵的箱子', items: boxItems });
+
+  // 學校
+  groups.push({ title: '⭐ 學校線索', items: [] });
+
+  // 學生宿舍
+  const dormItems = [];
+  if (state.diaryone) dormItems.push({
+    name: '【張藍的日記1】',
+    content: '今日和山田同學猜燈謎去了，真有趣，惟一個謎題山田同學如何思考，依舊解不開<br>那謎題是這樣的<br>本島鐵道開通 ，打四句一書<br>依我看，鐵道開通.......貫串全臺，謎底肯定是一以貫之，沒料想山田同學竟會被這種題目難倒，也算是意外發現她不同的面貌呢。'
+  });
+  groups.push({ title: '⭐ 學生宿舍線索', items: dormItems });
+
+  // 糖廠
+  const sugarItems = [];
+  if (state.rice) sugarItems.push({
+    name: '【蓬萊米】',
+    content: '過去臺灣最主要的兩項農作物是甘蔗與稻米，而其分布大致呈現「南糖北米」的現象。<br>進入日治時期後，由於臺灣原本的在來米因不具黏稠性而不受日本人歡迎，相較於被大力推廣的糖業，最初總督府方面並不鼓勵種植稻米。<br>1922年，蓬萊米培植成功成為台灣外銷米種中口碑甚好的一種，「米糖相剋」問題開始浮現。'
+  });
+  if (state.dad) sugarItems.push({
+    name: '【糖廠員工證】',
+    content: '晴子爸爸員工你找到一張糖廠重要幹部的員工證，上面的人叫做山田攸斗，似乎是晴子的爸爸，不過更令你驚訝的是，他竟然是日糖五課中影響力最大的營業課長！'
+  });
+  if (state.ricesugar) sugarItems.push({
+    name: '【米糖相剋】',
+    content: '蓬萊米培植成功，「米糖相剋」問題開始浮現。<br>甘蔗的收購價格透過米、蔗田收入的比較，為米農收入所決定。而當米價上揚，農民爭搶種稻米時，甘蔗收購價格也會因米作收入增長而被迫提高，這時糖業苦於蔗農因米作收益提高而頻頻轉作導致的原料供應不足及不穩定。'
+  });
+  groups.push({ title: '⭐ 糖廠線索', items: sugarItems });
+
+  // 山田家
+  const yamadaItems = [];
+  if (state.light) yamadaItems.push({
+    name: '【燈謎】',
+    content: '本島鐵道開通，打四書一句'
+  });
+  groups.push({ title: '⭐ 山田家線索', items: yamadaItems });
+
+  // 張藍家
+  const changItems = [];
+  if (state.diarytwo) changItems.push({
+    name: '【張藍日記2】',
+    content: '『南部的首都台南<br>是島上古色古香的代表<br>因為是開台之地所以人口眾多<br>也有許多的名勝古蹟…』<br>今天學了這首童謠，沒想到我居住的台南居然有這麼多有意義的地方，<br>赤崁樓、開山神社、五妃墓、孔廟......<br>之後有機會一定要去走走啊。'
+  });
+  if (state.diarytwo) changItems.push({
+    name: '【張藍日記3】',
+    content: '今天和山田去商店街買零食，看到當時會社為了廣告行銷所做的產品，他們將廣告文宣印在上面，讓小孩可以邊玩、邊看廣告。<br>我玩了幾次竟然抽到大獎！和山田吃吃喝喝滿載而歸，真是幸福啊~'
+  });
+  groups.push({ title: '⭐ 張藍家線索', items: changItems });
+
+  // 古蹟地圖
+  const ruinItems = [];
+  if (state.rbuilding) ruinItems.push({
+    name: '【赤崁樓】',
+    content: '<table border="1"><tr><td>25</td><td>78</td><td>96</td><td>57</td></tr></table>'
+  });
+  if (state.mbuilding) ruinItems.push({
+    name: '【開山神社】',
+    content: '<table border="1"><tr><td>94</td><td>05</td><td>19</td><td>25</td></tr></table>'
+  });
+  if (state.fbuilding) ruinItems.push({
+    name: '【五妃墓】',
+    content: '<table border="1"><tr><td>04</td><td>65</td><td>10</td><td>25</td></tr></table>'
+  });
+  if (state.cbuilding) ruinItems.push({
+    name: '【孔廟】',
+    content: '<table border="1"><tr><td>81</td><td>14</td><td>83</td><td>17</td></tr></table>'
+  });
+  if (state.rbuilding && state.mbuilding && state.fbuilding && state.cbuilding) {
+    ruinItems.push({
+      name: '🔍 線索組合',
+      content: '<a class="inline-link" data-goto="線索組合">前往線索排列解謎</a>'
+    });
+  }
+  if (state.paper) ruinItems.push({
+    name: '【紙條】',
+    content: '山田同學真是位善良的朋友，尚記得在河邊遇見她那日，她為我繪製肖像那夕陽絢爛的午後，伴我猜燈謎那晚.......能與一位日本人結下如此般的友誼是我未曾設想的，世界上果然沒有絕對的事，日本人不全然是壞人，而我對山田同學的情感或許也不只是友誼.......但願有一天能親口告訴她。'
+  });
+  groups.push({ title: '⭐ 古蹟地圖線索', items: ruinItems });
+
+  // 渲染
+  body.innerHTML = groups.map(g => `
+    <div class="clue-group">
+      <div class="clue-group-title">${g.title}</div>
+      ${g.items.length === 0
+        ? '<div class="clue-empty">尚未發現線索</div>'
+        : g.items.map(it => `<div class="clue-item"><span class="clue-name">${it.name}</span>${it.content}</div>`).join('')
+      }
+    </div>
+  `).join('');
+
+  // 綁定
+  bindChoices(body);
+  body.querySelectorAll('.inline-link[data-goto]').forEach(el => {
+    el.addEventListener('click', e => {
+      e.preventDefault();
+      closeInventory();
+      goto(el.dataset.goto);
+    });
+  });
+}
+
+function updateInvBadge() {
+  const count = ['plane','police','tatami','diaryone','rice','dad','ricesugar','light',
+    'diarytwo','diarythree','rbuilding','mbuilding','fbuilding','cbuilding','paper','uniform']
+    .reduce((n,k) => n + (state[k] ? 1 : 0), 0);
+  const badge = document.getElementById('inv-badge');
+  if (count > 0) {
+    badge.style.display = 'block';
+    badge.textContent = count;
+  } else {
+    badge.style.display = 'none';
+  }
+}
+
+/* 關鍵線索找齊提示 */
+let keyClueChecked = false;
+function queueKeyClueCheck() {
+  if (state.dad && state.paper && !keyClueChecked) {
+    keyClueChecked = true;
+    setTimeout(() => {
+      showModal('線索已找齊', `
+        <p>關鍵線索已找齊！</p>
+        <div class="choices" style="margin-top:14px;">
+          <a class="choice-link" data-goto="答題環節">進入思緒</a>
+        </div>
+      `);
+    }, 800);
+  }
+}
+
+/* 提示 toast */
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => el.classList.remove('show'), 2000);
+}
+
+/* 頂列按鈕 */
+document.getElementById('btn-restart').onclick = () => {
+  if (confirm('確定要重新開始嗎？目前進度將會清除。')) location.reload();
+};
+document.getElementById('btn-credits').onclick = () => {
+  showModal('製作人員', `
+    <p style="line-height:2.2; font-size:16px;">
+      <strong>三知餘文化</strong><br>
+      實習生 陳宥諼／陳雨柔（劇本／網頁設計）<br>
+      2026年重製版
+    </p>
+  `);
+};
+
+/* 啟動 */
+goto('start');
+</script>
+</body>
+</html>
